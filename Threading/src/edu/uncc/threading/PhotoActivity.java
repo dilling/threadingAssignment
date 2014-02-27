@@ -16,23 +16,28 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 
 public class PhotoActivity extends Activity {
-	TableLayout table;
-	TableRow row;
+	
+	//Object Setup
+	GridView grid;
 	ProgressDialog progressDialog;
 	LayoutParams imageLayoutParams;
-	int count =1;
+	ArrayList<String> urls;
+	String[] imgUrls;
+	TableLayout table;
+		//TableRow row;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo);
 		
-		ArrayList<String> urls = new ArrayList<String>();
+		//Setup ArrayList of URLs to Parse
+		urls = new ArrayList<String>();
 		urls.add(getResources().getString(R.string.commencement_main_image));
 		urls.add(getResources().getString(R.string.football_main_image));
 		urls.add(getResources().getString(R.string.ifest_main_image));
@@ -42,11 +47,13 @@ public class PhotoActivity extends Activity {
 		progressDialog.setMax(urls.size());
 		progressDialog.setCancelable(false);
 		progressDialog.setMessage("Loading..");
+	
 		table = (TableLayout) findViewById(R.id.table1);
+		//row = (TableRow) findViewById(R.id.tableRow1);
 		imageLayoutParams = new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		
-		
+		//Exit Button Setup
 		findViewById(R.id.exitButton).setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -58,6 +65,7 @@ public class PhotoActivity extends Activity {
 			
 		});
 		
+		//Begin Image Downloading and Displaying
 		new AsyncTask<String, Bitmap, Void>() {
 			
 			@Override
@@ -77,39 +85,18 @@ public class PhotoActivity extends Activity {
 							R.drawable.not_found)).getBitmap();
 				}
 
+				//ImageView imageViewToBeAdded = (ImageView) findViewById(R.id.imageView1);
 				ImageView imageViewToBeAdded = new ImageView(getBaseContext());
 				imageViewToBeAdded.setLayoutParams(imageLayoutParams);
 				imageViewToBeAdded.setPadding(5, 5, 5, 5);
 				imageViewToBeAdded.setImageBitmap(values[0]);
-				
-				//trying different things
-//				for(int i = 0; i<2; i++){
-//					
-//					row = new TableRow(PhotoActivity.this);
-//					row.setLayoutParams(new TableRow.LayoutParams(50, 50));
-//
-//					for (int j = 0; j<2; j++){
-//						ImageView imageViewToBeAdded = new ImageView(getBaseContext());
-//						imageViewToBeAdded.setLayoutParams(imageLayoutParams);
-//						imageViewToBeAdded.setPadding(5, 5, 5, 5);
-//						imageViewToBeAdded.setImageBitmap(values[0]);
-//						row.addView(imageViewToBeAdded);
-//					}
-//					table.addView(row);
-//					
-//				}
-
-				
-				//row.addView(imageViewToBeAdded, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-				//table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 				table.addView(imageViewToBeAdded);
 				progressDialog.incrementProgressBy(1);
-				count++;
-			}
+			}//end of onProgressUpdate
 
 			@Override
 			protected Void doInBackground(String... params) {
-				String[] imgUrls = params;
+				imgUrls = params;
 				Bitmap image = null;
 				for (String imgUrl : imgUrls) {
 					try {
@@ -127,9 +114,8 @@ public class PhotoActivity extends Activity {
 
 		}.execute(urls.toArray(new String[0]));
 		
-	}
+	}//end of onCreate
 	
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
