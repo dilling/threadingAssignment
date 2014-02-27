@@ -23,12 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/exitButton"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        tools:ignore="ScrollViewCount" >
 
         <TableLayout
             android:id="@+id/table1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
         </TableLayout>
         
     </ScrollView>

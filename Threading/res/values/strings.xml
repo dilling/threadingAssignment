@@ -10,8 +10,9 @@
     <string name="football_main_image">http://farm9.staticflickr.com/8441/7882624916_5f62cb318f_z.jpg</string>
     <string name="text_button_1">Generate Image AsyncTask</string>
     <string name="text_button_2">Generate Image Thread</string>
-    <string name="title_activity_photo">Photo Activity</string>
-    <string name="title_activity_photo_thread">Photo Thread</string>
+    <string name="title_activity_photo">UNC Charlotte Photos</string>
+    <string name="title_activity_photo_thread">UNC Charlotte Photos</string>
     <string name="text_button_exit">Exit</string>
+    <string name="welcome_text_photo_thread">Welcome to the photo thread!</string>
 
 </resources>

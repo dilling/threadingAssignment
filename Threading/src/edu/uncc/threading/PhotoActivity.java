@@ -4,24 +4,28 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import android.os.AsyncTask;
-import android.os.Bundle;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 
 public class PhotoActivity extends Activity {
 	TableLayout table;
+	TableRow row;
 	ProgressDialog progressDialog;
 	LayoutParams imageLayoutParams;
+	int count =1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class PhotoActivity extends Activity {
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setMax(urls.size());
 		progressDialog.setCancelable(false);
+		progressDialog.setMessage("Loading..");
 		table = (TableLayout) findViewById(R.id.table1);
 		imageLayoutParams = new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -47,6 +52,8 @@ public class PhotoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				finish();
+        		//overridePendingTransition(R.animator.slide, R.animator.slide_out); 
+
 			}
 			
 		});
@@ -74,8 +81,30 @@ public class PhotoActivity extends Activity {
 				imageViewToBeAdded.setLayoutParams(imageLayoutParams);
 				imageViewToBeAdded.setPadding(5, 5, 5, 5);
 				imageViewToBeAdded.setImageBitmap(values[0]);
+				
+				//trying different things
+//				for(int i = 0; i<2; i++){
+//					
+//					row = new TableRow(PhotoActivity.this);
+//					row.setLayoutParams(new TableRow.LayoutParams(50, 50));
+//
+//					for (int j = 0; j<2; j++){
+//						ImageView imageViewToBeAdded = new ImageView(getBaseContext());
+//						imageViewToBeAdded.setLayoutParams(imageLayoutParams);
+//						imageViewToBeAdded.setPadding(5, 5, 5, 5);
+//						imageViewToBeAdded.setImageBitmap(values[0]);
+//						row.addView(imageViewToBeAdded);
+//					}
+//					table.addView(row);
+//					
+//				}
+
+				
+				//row.addView(imageViewToBeAdded, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				//table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 				table.addView(imageViewToBeAdded);
 				progressDialog.incrementProgressBy(1);
+				count++;
 			}
 
 			@Override

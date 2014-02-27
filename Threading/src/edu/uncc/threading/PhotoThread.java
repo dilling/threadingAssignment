@@ -11,6 +11,8 @@ public class PhotoThread extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_thread);
 		
+		//currently extends hello world
+		
 	}
 	
 
