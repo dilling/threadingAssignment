@@ -12,10 +12,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import android.widget.TableRow;
+import android.widget.TableRow.LayoutParams;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -30,6 +32,7 @@ public class PhotoActivity extends Activity {
 	String[] imgUrls;
 	TableLayout table;
 		//TableRow row;
+	static final int PICS_PER_ROW = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class PhotoActivity extends Activity {
 		table = (TableLayout) findViewById(R.id.table1);
 		//row = (TableRow) findViewById(R.id.tableRow1);
 		imageLayoutParams = new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f);
 		
 		//Exit Button Setup
 		findViewById(R.id.exitButton).setOnClickListener(new OnClickListener(){
@@ -67,6 +70,8 @@ public class PhotoActivity extends Activity {
 		
 		//Begin Image Downloading and Displaying
 		new AsyncTask<String, Bitmap, Void>() {
+			
+			TableRow tableRow = new TableRow(getBaseContext());
 			
 			@Override
 			protected void onPostExecute(Void result) {
@@ -84,13 +89,18 @@ public class PhotoActivity extends Activity {
 					values[0] = ((BitmapDrawable) getResources().getDrawable(
 							R.drawable.not_found)).getBitmap();
 				}
-
+				
 				//ImageView imageViewToBeAdded = (ImageView) findViewById(R.id.imageView1);
 				ImageView imageViewToBeAdded = new ImageView(getBaseContext());
 				imageViewToBeAdded.setLayoutParams(imageLayoutParams);
 				imageViewToBeAdded.setPadding(5, 5, 5, 5);
 				imageViewToBeAdded.setImageBitmap(values[0]);
-				table.addView(imageViewToBeAdded);
+				Log.d("David", Integer.toString(tableRow.getVirtualChildCount()));
+				tableRow.addView(imageViewToBeAdded);
+				if(tableRow.getVirtualChildCount()==PICS_PER_ROW) {
+					table.addView(tableRow);
+					tableRow = new TableRow(getBaseContext());
+				}
 				progressDialog.incrementProgressBy(1);
 			}//end of onProgressUpdate
 
