@@ -49,15 +49,16 @@ public class PhotoActivity extends Activity {
 		
 		//Setup ArrayList of URLs to Parse
 		urls = new ArrayList<String>();
-		urls.add(getResources().getString(R.string.commencement_main_image));
+		urls.add(getResources().getString(R.string.uncc_main_image));
 		urls.add(getResources().getString(R.string.football_main_image));
 		urls.add(getResources().getString(R.string.ifest_main_image));
-		urls.add(getResources().getString(R.string.uncc_main_image));
+		urls.add(getResources().getString(R.string.commencement_main_image));
+		
 		
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setMax(urls.size());
 		progressDialog.setCancelable(false);
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		//progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setMessage("Loading..");
 	
 		table = (TableLayout) findViewById(R.id.table1);
