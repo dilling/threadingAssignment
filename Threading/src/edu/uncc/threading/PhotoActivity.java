@@ -13,14 +13,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 public class PhotoActivity extends Activity {
 	
@@ -52,9 +55,10 @@ public class PhotoActivity extends Activity {
 		progressDialog.setMessage("Loading..");
 	
 		table = (TableLayout) findViewById(R.id.table1);
+		table.setShrinkAllColumns(true);
 		//row = (TableRow) findViewById(R.id.tableRow1);
 		imageLayoutParams = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f);
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f);
 		
 		//Exit Button Setup
 		findViewById(R.id.exitButton).setOnClickListener(new OnClickListener(){
@@ -72,10 +76,20 @@ public class PhotoActivity extends Activity {
 		new AsyncTask<String, Bitmap, Void>() {
 			
 			TableRow tableRow = new TableRow(getBaseContext());
+			Integer minHeight;
 			
 			@Override
 			protected void onPostExecute(Void result) {
 				progressDialog.dismiss();
+				
+				/*
+				for(int i=0; i<table.getChildCount(); ++i) {
+				    TableRow row = (TableRow) table.getChildAt(i);
+				    for(int j=0; i<row.getch(); ++i) {
+					    TableRow row = (TableRow) table.getChildAt(i);
+				    }
+				    
+				}*/
 			}
 
 			@Override
@@ -95,8 +109,20 @@ public class PhotoActivity extends Activity {
 				imageViewToBeAdded.setLayoutParams(imageLayoutParams);
 				imageViewToBeAdded.setPadding(5, 5, 5, 5);
 				imageViewToBeAdded.setImageBitmap(values[0]);
+				if(minHeight==null)
+					minHeight = imageViewToBeAdded.getHeight();
+				else if(imageViewToBeAdded.getHeight() < minHeight)
+					minHeight = imageViewToBeAdded.getHeight();
+				//imageViewToBeAdded.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				Log.d("David", Integer.toString(tableRow.getVirtualChildCount()));
-				tableRow.addView(imageViewToBeAdded);
+				LinearLayout linearLayout = new LinearLayout(getBaseContext());
+				linearLayout.setOrientation(LinearLayout.VERTICAL);
+				TextView textView = new TextView(getBaseContext());
+				textView.setText("MEESEEKS");
+				textView.setGravity(Gravity.CENTER);
+				linearLayout.addView(imageViewToBeAdded);
+				linearLayout.addView(textView);
+				tableRow.addView(linearLayout);
 				if(tableRow.getVirtualChildCount()==PICS_PER_ROW) {
 					table.addView(tableRow);
 					tableRow = new TableRow(getBaseContext());
