@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,12 +19,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.TableRow;
-import android.widget.TableRow.LayoutParams;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
 public class PhotoActivity extends Activity {
@@ -36,6 +38,9 @@ public class PhotoActivity extends Activity {
 	TableLayout table;
 		//TableRow row;
 	static final int PICS_PER_ROW = 2;
+	
+	String[] captions={"UNC Charlotte", "Sports", "iFest", "Commencement"};
+	int captionCount=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +53,18 @@ public class PhotoActivity extends Activity {
 		urls.add(getResources().getString(R.string.football_main_image));
 		urls.add(getResources().getString(R.string.ifest_main_image));
 		urls.add(getResources().getString(R.string.uncc_main_image));
-
+		
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setMax(urls.size());
 		progressDialog.setCancelable(false);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setMessage("Loading..");
 	
 		table = (TableLayout) findViewById(R.id.table1);
 		table.setShrinkAllColumns(true);
 		//row = (TableRow) findViewById(R.id.tableRow1);
 		imageLayoutParams = new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f);
+				LayoutParams.MATCH_PARENT, 100, 1f);
 		
 		//Exit Button Setup
 		findViewById(R.id.exitButton).setOnClickListener(new OnClickListener(){
@@ -104,6 +110,8 @@ public class PhotoActivity extends Activity {
 							R.drawable.not_found)).getBitmap();
 				}
 				
+
+				
 				//ImageView imageViewToBeAdded = (ImageView) findViewById(R.id.imageView1);
 				ImageView imageViewToBeAdded = new ImageView(getBaseContext());
 				imageViewToBeAdded.setLayoutParams(imageLayoutParams);
@@ -118,7 +126,10 @@ public class PhotoActivity extends Activity {
 				LinearLayout linearLayout = new LinearLayout(getBaseContext());
 				linearLayout.setOrientation(LinearLayout.VERTICAL);
 				TextView textView = new TextView(getBaseContext());
-				textView.setText("MEESEEKS");
+				textView.setText(captions[captionCount]);
+				textView.setTextColor(Color.BLACK);
+				textView.setTypeface(Typeface.DEFAULT_BOLD);
+				captionCount++;
 				textView.setGravity(Gravity.CENTER);
 				linearLayout.addView(imageViewToBeAdded);
 				linearLayout.addView(textView);
